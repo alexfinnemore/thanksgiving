@@ -1,0 +1,72 @@
+'use client';
+
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { Dish } from '@/data/dishes';
+import Image from 'next/image';
+
+interface DishCarouselProps {
+    dishes: Dish[];
+    takenCounts: Record<string, number>;
+    onSelect: (dish: Dish) => void;
+    selectedDishId?: string;
+}
+
+export default function DishCarousel({ dishes, takenCounts, onSelect, selectedDishId }: DishCarouselProps) {
+    const [currentIndex, setCurrentIndex] = useState(0);
+
+    const next = () => setCurrentIndex((prev) => (prev + 1) % dishes.length);
+    const prev = () => setCurrentIndex((prev) => (prev - 1 + dishes.length) % dishes.length);
+
+    const currentDish = dishes[currentIndex];
+    const takenCount = takenCounts[currentDish.id] || 0;
+
+    return (
+        <div className="relative w-full max-w-md mx-auto h-80 flex items-center justify-center bg-black/40 rounded-xl border-2 border-gray-700 p-4">
+            <button onClick={prev} className="absolute left-2 z-10 p-2 bg-gray-800/80 rounded-full hover:bg-gray-700 border border-gray-500">
+                <ChevronLeft className="w-6 h-6 text-white" />
+            </button>
+
+            <div className="relative w-full h-full flex items-center justify-center overflow-hidden">
+                <AnimatePresence mode="wait">
+                    <motion.div
+                        key={currentIndex}
+                        initial={{ opacity: 0, x: 50, scale: 0.8 }}
+                        animate={{ opacity: 1, x: 0, scale: 1 }}
+                        exit={{ opacity: 0, x: -50, scale: 0.8 }}
+                        transition={{ duration: 0.2 }}
+                        className="flex flex-col items-center justify-center cursor-pointer w-full"
+                        onClick={() => onSelect(currentDish)}
+                    >
+                        <div className={`relative w-48 h-48 transition-all duration-200 ${selectedDishId === currentDish.id ? 'scale-110 drop-shadow-[0_0_15px_rgba(34,197,94,0.8)]' : 'hover:scale-105'}`}>
+                            <Image
+                                src={currentDish.image}
+                                alt={currentDish.name}
+                                fill
+                                className="object-contain pixelated filter drop-shadow-lg"
+                                sizes="(max-width: 768px) 100vw, 300px"
+                            />
+                            {takenCount > 0 && (
+                                <div className="absolute top-0 right-0 bg-red-600 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm border-2 border-white font-bold shadow-lg z-20">
+                                    {takenCount}
+                                </div>
+                            )}
+                            {selectedDishId === currentDish.id && (
+                                <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 bg-green-600 text-white px-3 py-1 rounded-full text-xs border border-white whitespace-nowrap z-20">
+                                    SELECTED
+                                </div>
+                            )}
+                        </div>
+                        <h3 className="mt-6 text-xl text-center text-yellow-400 font-bold tracking-wide drop-shadow-[2px_2px_0_rgba(0,0,0,1)] bg-black/50 px-4 py-1 rounded">{currentDish.name}</h3>
+                        <p className="text-xs text-gray-300 mt-1 bg-black/30 px-2 rounded">{currentDish.category}</p>
+                    </motion.div>
+                </AnimatePresence>
+            </div>
+
+            <button onClick={next} className="absolute right-2 z-10 p-2 bg-gray-800/80 rounded-full hover:bg-gray-700 border border-gray-500">
+                <ChevronRight className="w-6 h-6 text-white" />
+            </button>
+        </div>
+    );
+}

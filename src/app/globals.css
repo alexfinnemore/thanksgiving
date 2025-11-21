@@ -1,0 +1,26 @@
+@import "tailwindcss";
+
+@theme inline {
+  --font-pixel: var(--font-pixel);
+}
+
+body {
+  font-family: var(--font-pixel), monospace;
+  background-color: #000;
+  color: #fff;
+}
+
+/* Custom scrollbar for retro feel */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #222;
+}
+::-webkit-scrollbar-thumb {
+  background: #555;
+  border: 2px solid #222;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #777;
+}
