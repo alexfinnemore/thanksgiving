@@ -43,5 +43,5 @@ export const DISHES: Dish[] = [
     { id: 'sekt', name: 'Sekt', category: 'Drinks', image: '/sekt.png' },
 
     // Other
-    { id: 'diapers', name: 'Diapers (No Cooking!)', category: 'Other', image: '/diapers.png' },
+    { id: 'diapers', name: 'No Cooking\nDiapers / Baby Gift', category: 'Other', image: '/diapers.png' },
 ];
