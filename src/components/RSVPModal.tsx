@@ -21,12 +21,22 @@ export default function RSVPModal({ isOpen, onClose, takenCounts, onSubmit }: RS
     const [customDish, setCustomDish] = useState('');
     const [isCustom, setIsCustom] = useState(false);
 
+    const [error, setError] = useState('');
+
     if (!isOpen) return null;
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        if (!name) return alert('Please enter your name!');
-        if (!selectedDish && !customDish) return alert('Please select a dish or enter a custom one!');
+        setError('');
+
+        if (!name.trim()) {
+            setError('Please enter your name!');
+            return;
+        }
+        if (!selectedDish && !customDish) {
+            setError('Please select a dish or enter a custom one!');
+            return;
+        }
 
         onSubmit({
             name,
@@ -52,13 +62,22 @@ export default function RSVPModal({ isOpen, onClose, takenCounts, onSubmit }: RS
                 </div>
 
                 <form onSubmit={handleSubmit} className="p-6 space-y-6">
+                    {error && (
+                        <div className="bg-red-900/50 border-2 border-red-500 text-red-200 p-3 rounded text-sm font-bold animate-pulse">
+                            {error}
+                        </div>
+                    )}
+
                     {/* Name */}
                     <div className="space-y-2">
                         <label className="block text-sm text-green-400 uppercase tracking-wider">Your Name</label>
                         <input
                             type="text"
                             value={name}
-                            onChange={(e) => setName(e.target.value)}
+                            onChange={(e) => {
+                                setName(e.target.value);
+                                if (error) setError('');
+                            }}
                             className="w-full bg-black border-2 border-gray-600 p-3 text-white focus:border-green-500 focus:outline-none font-pixel"
                             placeholder="Enter name..."
                         />
@@ -73,7 +92,10 @@ export default function RSVPModal({ isOpen, onClose, takenCounts, onSubmit }: RS
                                 <DishCarousel
                                     dishes={DISHES}
                                     takenCounts={takenCounts}
-                                    onSelect={setSelectedDish}
+                                    onSelect={(dish) => {
+                                        setSelectedDish(dish);
+                                        if (error) setError('');
+                                    }}
                                     selectedDishId={selectedDish?.id}
                                 />
                                 <div className="text-center mt-2">

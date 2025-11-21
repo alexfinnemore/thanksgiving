@@ -19,29 +19,27 @@ A retro "Day of the Tentacle" style web invitation for Friendsgiving.
 2.  Import the project into Vercel.
 3.  Deploy!
 
-### Database Setup (Important)
+### Database Setup (Recommended)
 
-Currently, the app uses an **in-memory** database for demonstration purposes. This means RSVPs will be lost if the server restarts (which happens frequently on Vercel serverless functions).
+The app is pre-configured to use **Vercel Postgres**. If you don't set it up, it will automatically fall back to an in-memory database (data is lost on restart).
 
-To make it persistent:
+**To set up the real database:**
 
-1.  **Create a Vercel Postgres Database**:
-    - Go to your Vercel project dashboard -> Storage -> Create -> Postgres.
-    - Connect it to your project.
-    - Pull the env vars (`.env.local`).
+1.  Go to your [Vercel Dashboard](https://vercel.com/dashboard).
+2.  Select your project.
+3.  Click on the **Storage** tab.
+4.  Click **Create Database** -> **Postgres**.
+5.  Give it a name (e.g., `thanksgiving-db`) and click **Create**.
+6.  Once created, click **Connect Project** and select this project.
+7.  Vercel will automatically add the necessary environment variables (`POSTGRES_URL`, etc.) to your deployment.
+8.  **Redeploy** your app (or push a new commit) for the changes to take effect.
 
-2.  **Update `src/app/api/rsvp/route.ts`**:
-    - Replace the in-memory array with SQL queries.
-    - Example:
-      ```ts
-      import { sql } from '@vercel/postgres';
-      
-      // GET
-      const { rows } = await sql`SELECT * FROM rsvps`;
-      
-      // POST
-      await sql`INSERT INTO rsvps (name, dish, plus_one, come_early) VALUES (...)`;
-      ```
+That's it! The app will automatically detect the database, create the table, and start saving RSVPs there.
+
+**Why Vercel Postgres over Google Sheets?**
+- **Zero Config:** It's built into Vercel. No API keys, service accounts, or complex OAuth setups.
+- **Reliable:** It's a real SQL database, much faster and more robust than a spreadsheet.
+- **Free Tier:** Vercel's free tier is generous enough for this event.
 
 ## Development
 
