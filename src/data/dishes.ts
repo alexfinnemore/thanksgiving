@@ -10,12 +10,12 @@ export interface Dish {
 export const DISHES: Dish[] = [
     // Mains
     { id: 'roast-chicken', name: 'Roast Chicken', category: 'Mains', image: '/roast_chicken.png' },
-    { id: 'roast-beef', name: 'Roast Beef', category: 'Mains', image: '/roast_beef.png' },
-    { id: 'baked-ham', name: 'Baked Ham', category: 'Mains', image: '/baked_ham.png' },
+    { id: 'roast-beef', name: 'Roast Beef', category: 'Mains', image: '/roast-beef.png' },
+    { id: 'baked-ham', name: 'Baked Ham', category: 'Mains', image: '/baked-ham.png' },
     { id: 'meatballs', name: 'Meat Balls', category: 'Mains', image: '/meatballs.png' },
     { id: 'sweet-potatoes', name: 'Sweet Potatoes', category: 'Mains', image: '/sweet_potatoes.png' },
-    { id: 'roast-vegetables', name: 'Roast Vegetables', category: 'Mains', image: '/roast_vegetables.png' },
-    { id: 'greens', name: 'Greens', category: 'Mains', image: '/placeholder_food.png' },
+    { id: 'roast-vegetables', name: 'Roast Vegetables', category: 'Mains', image: '/roast-veg.png' },
+    { id: 'greens', name: 'Greens', category: 'Mains', image: '/greens.png' },
     { id: 'brussel-sprouts', name: 'Brussel Sprouts', category: 'Mains', image: '/sprouts.png' },
     { id: 'stuffing', name: 'Stuffing', category: 'Mains', image: '/stuffing.png' },
     { id: 'roast-potato', name: 'Roast Potatos', category: 'Mains', image: '/roast.png' },
