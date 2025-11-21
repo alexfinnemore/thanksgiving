@@ -47,3 +47,40 @@ export async function POST(request: Request) {
         return NextResponse.json({ success: true, rsvp: newRsvp });
     }
 }
+
+export async function DELETE(request: Request) {
+    const { searchParams } = new URL(request.url);
+    const id = searchParams.get('id');
+
+    if (!id) return NextResponse.json({ error: 'ID required' }, { status: 400 });
+
+    try {
+        await sql`DELETE FROM rsvps WHERE id = ${id}`;
+        return NextResponse.json({ success: true });
+    } catch (error) {
+        console.warn('Database delete failed, using in-memory store:', error);
+        rsvpsInMemory = rsvpsInMemory.filter(r => r.id !== id);
+        return NextResponse.json({ success: true });
+    }
+}
+
+export async function PUT(request: Request) {
+    const body = await request.json();
+    const { id, name, dish, dishId, plusOne, comeEarly } = body;
+
+    if (!id) return NextResponse.json({ error: 'ID required' }, { status: 400 });
+
+    try {
+        await sql`UPDATE rsvps 
+              SET name = ${name}, dish = ${dish}, dish_id = ${dishId}, plus_one = ${plusOne}, come_early = ${comeEarly}
+              WHERE id = ${id}`;
+        return NextResponse.json({ success: true });
+    } catch (error) {
+        console.warn('Database update failed, using in-memory store:', error);
+        const index = rsvpsInMemory.findIndex(r => r.id === id);
+        if (index !== -1) {
+            rsvpsInMemory[index] = { ...rsvpsInMemory[index], ...body };
+        }
+        return NextResponse.json({ success: true });
+    }
+}

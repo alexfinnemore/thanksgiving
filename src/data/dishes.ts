@@ -23,14 +23,14 @@ export const DISHES: Dish[] = [
     { id: 'mashed-potatoes', name: 'Mashed Potatoes', category: 'Mains', image: '/placeholder_food.png' },
 
     // Appetisers
-    { id: 'goat-cheese-rolls', name: 'Goat Cheese & Fig Rolls', category: 'Appetisers', image: '/placeholder_food.png' },
-    { id: 'cornbread', name: 'Cornbread', category: 'Appetisers', image: '/placeholder_food.png' },
-    { id: 'cranberry-sauce', name: 'Cranberry Sauce', category: 'Appetisers', image: '/placeholder_food.png' },
+    { id: 'goat-cheese-rolls', name: 'Goat Cheese & Fig Rolls', category: 'Appetisers', image: '/rolls.png' },
+    { id: 'cornbread', name: 'Cornbread', category: 'Appetisers', image: '/cornbread.png' },
+    { id: 'cranberry-sauce', name: 'Cranberry Sauce', category: 'Appetisers', image: '/cranberry.png' },
 
     // Desserts
-    { id: 'pumpkin-cookies', name: 'Pumpkin Cookies', category: 'Desserts', image: '/placeholder_food.png' },
-    { id: 'tiramisu', name: 'Tiramisu', category: 'Desserts', image: '/placeholder_food.png' },
-    { id: 'fruit-crumble', name: 'Fruit Crumble', category: 'Desserts', image: '/placeholder_food.png' },
+    { id: 'pumpkin-cookies', name: 'Pumpkin Cookies', category: 'Desserts', image: '/cookies.png' },
+    { id: 'tiramisu', name: 'Tiramisu', category: 'Desserts', image: '/tiramisu.png' },
+    { id: 'fruit-crumble', name: 'Fruit Crumble', category: 'Desserts', image: '/fruit-crumble.png' },
     { id: 'pie', name: 'Pie', category: 'Desserts', image: '/pie.png' },
     { id: 'ice-cream', name: 'Ice Cream', category: 'Desserts', image: '/ice-cream.png' },
     { id: 'apple-turnovers', name: 'Apple Turnovers', category: 'Desserts', image: '/apple-turnovers.png' },
