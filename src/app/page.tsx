@@ -160,6 +160,7 @@ export default function Home() {
         onClose={() => setShowModal(false)}
         takenCounts={takenCounts}
         onSubmit={handleRSVP}
+        customDishes={customDishes}
       />
 
       {/* Footer/Credits */}

@@ -12,9 +12,10 @@ interface RSVPModalProps {
     onClose: () => void;
     takenCounts: Record<string, number>;
     onSubmit: (data: any) => void;
+    customDishes: any[];
 }
 
-export default function RSVPModal({ isOpen, onClose, takenCounts, onSubmit }: RSVPModalProps) {
+export default function RSVPModal({ isOpen, onClose, takenCounts, onSubmit, customDishes }: RSVPModalProps) {
     const [name, setName] = useState('');
     const [plusOne, setPlusOne] = useState(false);
     const [comeEarly, setComeEarly] = useState(false);
@@ -24,6 +25,15 @@ export default function RSVPModal({ isOpen, onClose, takenCounts, onSubmit }: RS
     const [viewMode, setViewMode] = useState<'carousel' | 'grid'>('grid');
 
     const [error, setError] = useState('');
+
+    // Merge predefined dishes with custom dishes
+    const customDishObjects: Dish[] = customDishes.map(cd => ({
+        id: `custom-${cd.id}`,
+        name: cd.name,
+        category: 'Other' as const,
+        image: '/placeholder_food.png'
+    }));
+    const allDishes = [...DISHES, ...customDishObjects];
 
     if (!isOpen) return null;
 
@@ -121,14 +131,14 @@ export default function RSVPModal({ isOpen, onClose, takenCounts, onSubmit }: RS
                             <>
                                 {viewMode === 'carousel' ? (
                                     <DishCarousel
-                                        dishes={DISHES}
+                                        dishes={allDishes}
                                         takenCounts={takenCounts}
                                         onToggle={toggleDish}
                                         selectedDishIds={selectedDishes.map(d => d.id)}
                                     />
                                 ) : (
                                     <DishGrid
-                                        dishes={DISHES}
+                                        dishes={allDishes}
                                         takenCounts={takenCounts}
                                         onToggle={toggleDish}
                                         selectedDishIds={selectedDishes.map(d => d.id)}
