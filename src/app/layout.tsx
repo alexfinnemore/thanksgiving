@@ -11,6 +11,24 @@ const pixelFont = Press_Start_2P({
 export const metadata: Metadata = {
   title: "Friendsgiving 2025",
   description: "Join us for a feast!",
+  openGraph: {
+    title: "Friendsgiving 2025",
+    description: "Join us for a feast!",
+    images: [
+      {
+        url: "/background.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Friendsgiving 2025",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Friendsgiving 2025",
+    description: "Join us for a feast!",
+    images: ["/background.jpg"],
+  },
 };
 
 export default function RootLayout({
