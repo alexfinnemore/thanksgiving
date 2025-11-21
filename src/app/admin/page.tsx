@@ -100,7 +100,7 @@ export default function AdminPage() {
                                 {editingId === rsvp.id ? (
                                     <>
                                         <td className="p-4"><input className="bg-gray-900 p-1 rounded text-white w-full" value={editForm.name} onChange={e => setEditForm({ ...editForm, name: e.target.value })} /></td>
-                                        <td className="p-4 relative">
+                                        <td className={`p-4 ${dropdownOpen === rsvp.id ? 'relative z-[60]' : 'relative'}`}>
                                             <button
                                                 type="button"
                                                 onClick={(e) => {
@@ -115,7 +115,7 @@ export default function AdminPage() {
 
                                             {dropdownOpen === rsvp.id && (
                                                 <div
-                                                    className="absolute top-full left-0 z-50 bg-gray-800 border border-gray-600 rounded shadow-xl max-h-60 overflow-y-auto w-64 p-2 mt-1"
+                                                    className="absolute top-full left-0 z-[100] bg-gray-800 border border-gray-600 rounded shadow-xl max-h-60 overflow-y-auto w-64 p-2 mt-1"
                                                     onClick={(e) => e.stopPropagation()}
                                                 >
                                                     {DISHES.map(dish => {
