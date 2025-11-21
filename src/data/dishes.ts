@@ -38,9 +38,9 @@ export const DISHES: Dish[] = [
     // Drinks
     { id: 'wine', name: 'Wine', category: 'Drinks', image: '/placeholder_drink.png' },
     { id: 'beer', name: 'Beer', category: 'Drinks', image: '/placeholder_drink.png' },
-    { id: 'non-alcoholic', name: 'Non-alcoholic', category: 'Drinks', image: '/placeholder_drink.png' },
-    { id: 'gluhwein', name: 'Glüwine', category: 'Drinks', image: '/placeholder_drink.png' },
-    { id: 'sekt', name: 'Sekt', category: 'Drinks', image: '/placeholder_drink.png' },
+    { id: 'non-alcoholic', name: 'Non-alcoholic', category: 'Drinks', image: '/soda.png' },
+    { id: 'gluhwein', name: 'Glüwine', category: 'Drinks', image: '/gluhwein.png' },
+    { id: 'sekt', name: 'Sekt', category: 'Drinks', image: '/sekt.png' },
 
     // Other
     { id: 'diapers', name: 'Diapers (No Cooking!)', category: 'Other', image: '/diapers.png' },
