@@ -2,11 +2,14 @@
 
 import { useEffect, useState } from 'react';
 
+import { DISHES } from '@/data/dishes';
+
 export default function AdminPage() {
     const [rsvps, setRsvps] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [editingId, setEditingId] = useState<string | null>(null);
     const [editForm, setEditForm] = useState<any>({});
+    const [dropdownOpen, setDropdownOpen] = useState(false);
 
     const fetchRsvps = () => {
         fetch('/api/rsvp')
@@ -30,6 +33,7 @@ export default function AdminPage() {
     const startEdit = (rsvp: any) => {
         setEditingId(rsvp.id);
         setEditForm(rsvp);
+        setDropdownOpen(false);
     };
 
     const saveEdit = async () => {
@@ -38,7 +42,31 @@ export default function AdminPage() {
             body: JSON.stringify(editForm),
         });
         setEditingId(null);
+        setDropdownOpen(false);
         fetchRsvps();
+    };
+
+    const toggleDish = (dish: any) => {
+        let currentIds = (editForm.dishId === 'custom' || !editForm.dishId) ? [] : editForm.dishId.split(',');
+        // Clean up empty strings
+        currentIds = currentIds.filter((id: string) => id.trim() !== '');
+
+        if (currentIds.includes(dish.id)) {
+            currentIds = currentIds.filter((id: string) => id !== dish.id);
+        } else {
+            currentIds.push(dish.id);
+        }
+
+        if (currentIds.length === 0) {
+            setEditForm({ ...editForm, dishId: '', dish: '' });
+        } else {
+            const names = currentIds.map((id: string) => DISHES.find(d => d.id === id)?.name || id).join(', ');
+            setEditForm({ ...editForm, dishId: currentIds.join(','), dish: names });
+        }
+    };
+
+    const handleCustomDish = (val: string) => {
+        setEditForm({ ...editForm, dishId: 'custom', dish: val });
     };
 
     if (loading) return <div className="p-8 text-white font-pixel">Loading...</div>;
@@ -64,7 +92,43 @@ export default function AdminPage() {
                                 {editingId === rsvp.id ? (
                                     <>
                                         <td className="p-4"><input className="bg-gray-900 p-1 rounded text-white w-full" value={editForm.name} onChange={e => setEditForm({ ...editForm, name: e.target.value })} /></td>
-                                        <td className="p-4"><input className="bg-gray-900 p-1 rounded text-white w-full" value={editForm.dish} onChange={e => setEditForm({ ...editForm, dish: e.target.value })} /></td>
+                                        <td className="p-4 relative">
+                                            <button
+                                                type="button"
+                                                onClick={() => setDropdownOpen(!dropdownOpen)}
+                                                className="bg-gray-900 p-2 rounded text-white w-full text-left flex justify-between items-center border border-gray-600 min-w-[200px]"
+                                            >
+                                                <span className="truncate text-sm">{editForm.dish || 'Select Dishes...'}</span>
+                                                <span className="text-xs ml-2">▼</span>
+                                            </button>
+
+                                            {dropdownOpen && (
+                                                <div className="absolute top-full left-0 z-50 bg-gray-800 border border-gray-600 rounded shadow-xl max-h-60 overflow-y-auto w-64 p-2 mt-1">
+                                                    {DISHES.map(dish => {
+                                                        const isSelected = (editForm.dishId || '').split(',').includes(dish.id);
+                                                        return (
+                                                            <div key={dish.id} className="flex items-center gap-2 p-2 hover:bg-gray-700 rounded cursor-pointer transition-colors" onClick={() => toggleDish(dish)}>
+                                                                <div className={`w-4 h-4 border flex items-center justify-center text-black text-[10px] font-bold ${isSelected ? 'bg-green-500 border-green-500' : 'border-gray-500'}`}>
+                                                                    {isSelected && '✓'}
+                                                                </div>
+                                                                <span className="text-sm text-gray-200">{dish.name}</span>
+                                                            </div>
+                                                        )
+                                                    })}
+                                                    <div className="border-t border-gray-600 mt-2 pt-2">
+                                                        <label className="flex flex-col gap-1 p-1">
+                                                            <span className="text-xs text-gray-400 uppercase">Or Custom Dish:</span>
+                                                            <input
+                                                                className="bg-gray-900 text-white text-sm p-2 rounded border border-gray-700 focus:border-green-500 outline-none"
+                                                                value={editForm.dishId === 'custom' ? editForm.dish : ''}
+                                                                onChange={(e) => handleCustomDish(e.target.value)}
+                                                                placeholder="Type custom dish name..."
+                                                            />
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </td>
                                         <td className="p-4 text-center"><input type="checkbox" checked={editForm.plusOne} onChange={e => setEditForm({ ...editForm, plusOne: e.target.checked })} /></td>
                                         <td className="p-4 text-center"><input type="checkbox" checked={editForm.comeEarly} onChange={e => setEditForm({ ...editForm, comeEarly: e.target.checked })} /></td>
                                         <td className="p-4 text-right space-x-2">

@@ -69,16 +69,17 @@ export default function RSVPModal({ isOpen, onClose, takenCounts, onSubmit }: RS
             <motion.div
                 initial={{ scale: 0.9, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
-                className="bg-[#2a2a2a] border-4 border-gray-600 rounded-lg w-full max-w-lg max-h-[90vh] overflow-y-auto shadow-[0_0_20px_rgba(0,0,0,0.8)]"
+                className="relative bg-[#2a2a2a] border-4 border-gray-600 rounded-lg w-full max-w-lg max-h-[90vh] overflow-y-auto shadow-[0_0_20px_rgba(0,0,0,0.8)]"
             >
-                <div className="bg-gray-800 p-4 flex justify-between items-center border-b-4 border-gray-600 sticky top-0 z-20">
-                    <h2 className="text-xl text-yellow-500 font-bold">RSVP Card</h2>
-                    <button type="button" onClick={onClose} className="text-gray-400 hover:text-white">
-                        <X className="w-6 h-6" />
-                    </button>
-                </div>
+                <button
+                    type="button"
+                    onClick={onClose}
+                    className="absolute top-4 right-4 text-gray-400 hover:text-white z-50 bg-[#2a2a2a]/80 rounded-full p-1"
+                >
+                    <X className="w-6 h-6" />
+                </button>
 
-                <form onSubmit={handleSubmit} className="p-6 space-y-6">
+                <form onSubmit={handleSubmit} className="p-6 space-y-6 pt-12">
                     {error && (
                         <div className="bg-red-900/50 border-2 border-red-500 text-red-200 p-3 rounded text-sm font-bold animate-pulse">
                             {error}
@@ -103,15 +104,15 @@ export default function RSVPModal({ isOpen, onClose, takenCounts, onSubmit }: RS
                     {/* Dish Selection */}
                     <div className="space-y-2">
                         <div className="flex justify-between items-center mb-2">
-                            <label className="block text-sm text-green-400 uppercase tracking-wider">What are you bringing?</label>
+                            <label className="block text-[10px] md:text-xs text-green-400 uppercase tracking-wider">What are you bringing?</label>
                             {!isCustom && (
                                 <button
                                     type="button"
                                     onClick={() => setViewMode(viewMode === 'carousel' ? 'grid' : 'carousel')}
-                                    className="text-xs flex items-center gap-1 bg-gray-700 hover:bg-gray-600 text-white px-2 py-1 rounded border border-gray-500 transition-colors"
+                                    className="text-[10px] flex items-center gap-1 bg-gray-700 hover:bg-gray-600 text-white px-2 py-1 rounded border border-gray-500 transition-colors"
                                 >
-                                    {viewMode === 'carousel' ? <Grid size={14} /> : <LayoutTemplate size={14} />}
-                                    {viewMode === 'carousel' ? 'Grid View' : 'Carousel View'}
+                                    {viewMode === 'carousel' ? <Grid size={12} /> : <LayoutTemplate size={12} />}
+                                    {viewMode === 'carousel' ? 'Grid' : 'Carousel'}
                                 </button>
                             )}
                         </div>
