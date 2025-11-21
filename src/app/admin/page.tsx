@@ -9,7 +9,7 @@ export default function AdminPage() {
     const [loading, setLoading] = useState(true);
     const [editingId, setEditingId] = useState<string | null>(null);
     const [editForm, setEditForm] = useState<any>({});
-    const [dropdownOpen, setDropdownOpen] = useState(false);
+    const [dropdownOpen, setDropdownOpen] = useState<string | null>(null);
 
     const fetchRsvps = () => {
         fetch('/api/rsvp')
@@ -24,6 +24,14 @@ export default function AdminPage() {
         fetchRsvps();
     }, []);
 
+    useEffect(() => {
+        const handleClickOutside = () => {
+            if (dropdownOpen) setDropdownOpen(null);
+        };
+        document.addEventListener('click', handleClickOutside);
+        return () => document.removeEventListener('click', handleClickOutside);
+    }, [dropdownOpen]);
+
     const handleDelete = async (id: string) => {
         if (!confirm('Are you sure you want to delete this RSVP?')) return;
         await fetch(`/api/rsvp?id=${id}`, { method: 'DELETE' });
@@ -33,7 +41,7 @@ export default function AdminPage() {
     const startEdit = (rsvp: any) => {
         setEditingId(rsvp.id);
         setEditForm(rsvp);
-        setDropdownOpen(false);
+        setDropdownOpen(null);
     };
 
     const saveEdit = async () => {
@@ -42,7 +50,7 @@ export default function AdminPage() {
             body: JSON.stringify(editForm),
         });
         setEditingId(null);
-        setDropdownOpen(false);
+        setDropdownOpen(null);
         fetchRsvps();
     };
 
@@ -75,7 +83,7 @@ export default function AdminPage() {
         <div className="min-h-screen bg-gray-900 p-8 font-sans">
             <h1 className="text-3xl text-yellow-500 font-bold mb-8 font-pixel">RSVP Admin Dashboard</h1>
 
-            <div className="bg-gray-800 rounded-lg overflow-hidden shadow-xl border border-gray-700 overflow-x-auto">
+            <div className="bg-gray-800 rounded-lg overflow-hidden shadow-xl border border-gray-700 overflow-x-auto pb-32">
                 <table className="w-full text-left text-gray-300">
                     <thead className="bg-gray-700 text-gray-100 uppercase text-sm font-bold">
                         <tr>
@@ -95,15 +103,21 @@ export default function AdminPage() {
                                         <td className="p-4 relative">
                                             <button
                                                 type="button"
-                                                onClick={() => setDropdownOpen(!dropdownOpen)}
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    setDropdownOpen(dropdownOpen === rsvp.id ? null : rsvp.id);
+                                                }}
                                                 className="bg-gray-900 p-2 rounded text-white w-full text-left flex justify-between items-center border border-gray-600 min-w-[200px]"
                                             >
                                                 <span className="truncate text-sm">{editForm.dish || 'Select Dishes...'}</span>
                                                 <span className="text-xs ml-2">▼</span>
                                             </button>
 
-                                            {dropdownOpen && (
-                                                <div className="absolute top-full left-0 z-50 bg-gray-800 border border-gray-600 rounded shadow-xl max-h-60 overflow-y-auto w-64 p-2 mt-1">
+                                            {dropdownOpen === rsvp.id && (
+                                                <div
+                                                    className="absolute top-full left-0 z-50 bg-gray-800 border border-gray-600 rounded shadow-xl max-h-60 overflow-y-auto w-64 p-2 mt-1"
+                                                    onClick={(e) => e.stopPropagation()}
+                                                >
                                                     {DISHES.map(dish => {
                                                         const isSelected = (editForm.dishId || '').split(',').includes(dish.id);
                                                         return (

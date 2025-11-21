@@ -9,7 +9,7 @@ export interface Dish {
 
 export const DISHES: Dish[] = [
     // Mains
-    { id: 'roast-chicken', name: 'Roast Chicken', category: 'Mains', image: '/roast_chicken.png' },
+    { id: 'roast-chicken', name: 'Roast Chicken', category: 'Mains', image: '/roast-chicken.png' },
     { id: 'roast-beef', name: 'Roast Beef', category: 'Mains', image: '/roast-beef.png' },
     { id: 'baked-ham', name: 'Baked Ham', category: 'Mains', image: '/baked-ham.png' },
     { id: 'meatballs', name: 'Meat Balls', category: 'Mains', image: '/meatballs.png' },

@@ -21,7 +21,7 @@ export default function RSVPModal({ isOpen, onClose, takenCounts, onSubmit }: RS
     const [selectedDishes, setSelectedDishes] = useState<Dish[]>([]);
     const [customDish, setCustomDish] = useState('');
     const [isCustom, setIsCustom] = useState(false);
-    const [viewMode, setViewMode] = useState<'carousel' | 'grid'>('carousel');
+    const [viewMode, setViewMode] = useState<'carousel' | 'grid'>('grid');
 
     const [error, setError] = useState('');
 
@@ -88,7 +88,7 @@ export default function RSVPModal({ isOpen, onClose, takenCounts, onSubmit }: RS
 
                     {/* Name */}
                     <div className="space-y-2">
-                        <label className="block text-sm text-green-400 uppercase tracking-wider">Your Name</label>
+                        <label className="block text-xs text-green-400 uppercase tracking-wider">Your Name</label>
                         <input
                             type="text"
                             value={name}
@@ -141,7 +141,7 @@ export default function RSVPModal({ isOpen, onClose, takenCounts, onSubmit }: RS
                                         onClick={() => setIsCustom(true)}
                                         className="text-xs text-gray-400 underline hover:text-white"
                                     >
-                                        I can't find my dish / I want to bring something else
+                                        Something else
                                     </button>
                                 </div>
                             </>
@@ -173,7 +173,7 @@ export default function RSVPModal({ isOpen, onClose, takenCounts, onSubmit }: RS
                                 {plusOne && <span className="text-white text-xs">X</span>}
                             </div>
                             <input type="checkbox" checked={plusOne} onChange={(e) => setPlusOne(e.target.checked)} className="hidden" />
-                            <span className="text-sm text-gray-300 group-hover:text-white">Bringing a +1?</span>
+                            <span className="text-xs text-gray-300 group-hover:text-white">Bringing a +1?</span>
                         </label>
 
                         <label className="flex items-center space-x-3 cursor-pointer group">
@@ -181,7 +181,7 @@ export default function RSVPModal({ isOpen, onClose, takenCounts, onSubmit }: RS
                                 {comeEarly && <span className="text-white text-xs">X</span>}
                             </div>
                             <input type="checkbox" checked={comeEarly} onChange={(e) => setComeEarly(e.target.checked)} className="hidden" />
-                            <span className="text-sm text-gray-300 group-hover:text-white">Come early to cook (13:00)?</span>
+                            <span className="text-xs text-gray-300 group-hover:text-white">Come early to cook, anytime from 13:00</span>
                         </label>
                     </div>
 
