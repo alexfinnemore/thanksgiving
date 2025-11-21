@@ -21,7 +21,7 @@ export default function DishCarousel({ dishes, takenCounts, onToggle, selectedDi
 
     const currentDish = dishes[currentIndex];
     const takenCount = takenCounts[currentDish.id] || 0;
-    const isFood = !['Drinks', 'Other'].includes(currentDish.category);
+    const isFood = !['Drinks'].includes(currentDish.category) && currentDish.id !== 'diapers';
     const showTakenWarning = takenCount > 0 && isFood;
     const isSelected = selectedDishIds.includes(currentDish.id);
     const isDiapers = currentDish.id === 'diapers';
@@ -72,10 +72,10 @@ export default function DishCarousel({ dishes, takenCounts, onToggle, selectedDi
                         </div>
 
                         <h3 className={`mt-8 text-xl text-center font-bold tracking-wide drop-shadow-[2px_2px_0_rgba(0,0,0,1)] px-4 py-1 rounded transition-colors ${isSelected
-                                ? 'text-green-400 bg-black/70 border border-green-500'
-                                : isDiapers
-                                    ? 'text-blue-300 bg-blue-900/50 border border-blue-400'
-                                    : 'text-yellow-400 bg-black/50'
+                            ? 'text-green-400 bg-black/70 border border-green-500'
+                            : isDiapers
+                                ? 'text-blue-300 bg-blue-900/50 border border-blue-400'
+                                : 'text-yellow-400 bg-black/50'
                             }`}>
                             {nameLines.map((line, i) => (
                                 <span key={i}>

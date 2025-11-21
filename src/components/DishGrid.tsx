@@ -15,7 +15,8 @@ export default function DishGrid({ dishes, takenCounts, selectedDishIds, onToggl
             {dishes.map((dish) => {
                 const isSelected = selectedDishIds.includes(dish.id);
                 const takenCount = takenCounts[dish.id] || 0;
-                const isFood = !['Drinks', 'Other'].includes(dish.category);
+                const isCustomDish = dish.id.startsWith('custom-');
+                const isFood = !['Drinks'].includes(dish.category) && dish.id !== 'diapers';
                 const showTakenDot = takenCount > 0 && isFood;
                 const isDiapers = dish.id === 'diapers';
                 const nameLines = dish.name.split('\n');
@@ -27,10 +28,10 @@ export default function DishGrid({ dishes, takenCounts, selectedDishIds, onToggl
                         whileTap={{ scale: 0.95 }}
                         onClick={() => onToggle(dish)}
                         className={`relative flex flex-col items-center p-2 rounded border-2 cursor-pointer transition-colors ${isSelected
-                                ? 'bg-green-900/50 border-green-500'
-                                : isDiapers
-                                    ? 'bg-blue-900/30 border-blue-400 hover:border-blue-300'
-                                    : 'bg-black/40 border-gray-700 hover:border-gray-500'
+                            ? 'bg-green-900/50 border-green-500'
+                            : isDiapers
+                                ? 'bg-blue-900/30 border-blue-400 hover:border-blue-300'
+                                : 'bg-black/40 border-gray-700 hover:border-gray-500'
                             }`}
                     >
                         <div className="relative w-16 h-16 mb-2">

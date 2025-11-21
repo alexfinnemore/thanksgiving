@@ -24,7 +24,15 @@ export default function Home() {
 
   const takenCounts = rsvps.reduce((acc, rsvp) => {
     const dishId = rsvp.dish_id || rsvp.dishId; // Support both formats for compatibility
-    if (dishId && dishId !== 'custom') {
+
+    if (dishId === 'custom') {
+      // For custom dishes, find the matching custom dish by name
+      const customDish = customDishes.find(cd => cd.name.toLowerCase() === rsvp.dish.toLowerCase());
+      if (customDish) {
+        const customKey = `custom-${customDish.id}`;
+        acc[customKey] = (acc[customKey] || 0) + 1;
+      }
+    } else if (dishId) {
       const ids = dishId.split(',');
       ids.forEach((id: string) => {
         const trimmedId = id.trim();
