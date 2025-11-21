@@ -56,7 +56,7 @@ export default function RSVPModal({ isOpen, onClose, takenCounts, onSubmit }: RS
             >
                 <div className="bg-gray-800 p-4 flex justify-between items-center border-b-4 border-gray-600 sticky top-0 z-20">
                     <h2 className="text-xl text-yellow-500 font-bold">RSVP Card</h2>
-                    <button onClick={onClose} className="text-gray-400 hover:text-white">
+                    <button type="button" onClick={onClose} className="text-gray-400 hover:text-white">
                         <X className="w-6 h-6" />
                     </button>
                 </div>

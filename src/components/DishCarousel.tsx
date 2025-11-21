@@ -24,7 +24,7 @@ export default function DishCarousel({ dishes, takenCounts, onSelect, selectedDi
 
     return (
         <div className="relative w-full max-w-md mx-auto h-80 flex items-center justify-center bg-black/40 rounded-xl border-2 border-gray-700 p-4">
-            <button onClick={prev} className="absolute left-2 z-10 p-2 bg-gray-800/80 rounded-full hover:bg-gray-700 border border-gray-500">
+            <button type="button" onClick={prev} className="absolute left-2 z-10 p-2 bg-gray-800/80 rounded-full hover:bg-gray-700 border border-gray-500">
                 <ChevronLeft className="w-6 h-6 text-white" />
             </button>
 
@@ -70,7 +70,7 @@ export default function DishCarousel({ dishes, takenCounts, onSelect, selectedDi
                 </AnimatePresence>
             </div>
 
-            <button onClick={next} className="absolute right-2 z-10 p-2 bg-gray-800/80 rounded-full hover:bg-gray-700 border border-gray-500">
+            <button type="button" onClick={next} className="absolute right-2 z-10 p-2 bg-gray-800/80 rounded-full hover:bg-gray-700 border border-gray-500">
                 <ChevronRight className="w-6 h-6 text-white" />
             </button>
         </div>
