@@ -18,9 +18,9 @@ export const DISHES: Dish[] = [
     { id: 'greens', name: 'Greens', category: 'Mains', image: '/placeholder_food.png' },
     { id: 'brussel-sprouts', name: 'Brussel Sprouts', category: 'Mains', image: '/placeholder_food.png' },
     { id: 'stuffing', name: 'Stuffing', category: 'Mains', image: '/placeholder_food.png' },
-    { id: 'roast-potato', name: 'Roast Potato', category: 'Mains', image: '/placeholder_food.png' },
-    { id: 'salad', name: 'Salad', category: 'Mains', image: '/placeholder_food.png' },
-    { id: 'mashed-potatoes', name: 'Mashed Potatoes', category: 'Mains', image: '/placeholder_food.png' },
+    { id: 'roast-potato', name: 'Roast Potatos', category: 'Mains', image: '/roast.png' },
+    { id: 'salad', name: 'Salad', category: 'Mains', image: '/salad.png' },
+    { id: 'mashed-potatoes', name: 'Mashed Potatoes', category: 'Mains', image: '/mash.png' },
 
     // Appetisers
     { id: 'goat-cheese-rolls', name: 'Goat Cheese & Fig Rolls', category: 'Appetisers', image: '/rolls.png' },

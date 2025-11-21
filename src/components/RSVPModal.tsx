@@ -3,8 +3,9 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import DishCarousel from './DishCarousel';
+import DishGrid from './DishGrid';
 import { DISHES, Dish } from '@/data/dishes';
-import { X } from 'lucide-react';
+import { X, Grid, LayoutTemplate } from 'lucide-react';
 
 interface RSVPModalProps {
     isOpen: boolean;
@@ -17,13 +18,26 @@ export default function RSVPModal({ isOpen, onClose, takenCounts, onSubmit }: RS
     const [name, setName] = useState('');
     const [plusOne, setPlusOne] = useState(false);
     const [comeEarly, setComeEarly] = useState(false);
-    const [selectedDish, setSelectedDish] = useState<Dish | null>(null);
+    const [selectedDishes, setSelectedDishes] = useState<Dish[]>([]);
     const [customDish, setCustomDish] = useState('');
     const [isCustom, setIsCustom] = useState(false);
+    const [viewMode, setViewMode] = useState<'carousel' | 'grid'>('carousel');
 
     const [error, setError] = useState('');
 
     if (!isOpen) return null;
+
+    const toggleDish = (dish: Dish) => {
+        if (error) setError('');
+        setSelectedDishes((prev) => {
+            const exists = prev.find((d) => d.id === dish.id);
+            if (exists) {
+                return prev.filter((d) => d.id !== dish.id);
+            } else {
+                return [...prev, dish];
+            }
+        });
+    };
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -33,17 +47,20 @@ export default function RSVPModal({ isOpen, onClose, takenCounts, onSubmit }: RS
             setError('Please enter your name!');
             return;
         }
-        if (!selectedDish && !customDish) {
-            setError('Please select a dish or enter a custom one!');
+        if (selectedDishes.length === 0 && !customDish) {
+            setError('Please select at least one dish or enter a custom one!');
             return;
         }
+
+        const dishNames = isCustom ? customDish : selectedDishes.map(d => d.name).join(', ');
+        const dishIds = isCustom ? 'custom' : selectedDishes.map(d => d.id).join(',');
 
         onSubmit({
             name,
             plusOne,
             comeEarly,
-            dish: isCustom ? customDish : selectedDish?.name,
-            dishId: isCustom ? 'custom' : selectedDish?.id,
+            dish: dishNames,
+            dishId: dishIds,
         });
     };
 
@@ -85,19 +102,38 @@ export default function RSVPModal({ isOpen, onClose, takenCounts, onSubmit }: RS
 
                     {/* Dish Selection */}
                     <div className="space-y-2">
-                        <label className="block text-sm text-green-400 uppercase tracking-wider mb-2">What are you bringing?</label>
+                        <div className="flex justify-between items-center mb-2">
+                            <label className="block text-sm text-green-400 uppercase tracking-wider">What are you bringing?</label>
+                            {!isCustom && (
+                                <button
+                                    type="button"
+                                    onClick={() => setViewMode(viewMode === 'carousel' ? 'grid' : 'carousel')}
+                                    className="text-xs flex items-center gap-1 bg-gray-700 hover:bg-gray-600 text-white px-2 py-1 rounded border border-gray-500 transition-colors"
+                                >
+                                    {viewMode === 'carousel' ? <Grid size={14} /> : <LayoutTemplate size={14} />}
+                                    {viewMode === 'carousel' ? 'Grid View' : 'Carousel View'}
+                                </button>
+                            )}
+                        </div>
 
                         {!isCustom ? (
                             <>
-                                <DishCarousel
-                                    dishes={DISHES}
-                                    takenCounts={takenCounts}
-                                    onSelect={(dish) => {
-                                        setSelectedDish(dish);
-                                        if (error) setError('');
-                                    }}
-                                    selectedDishId={selectedDish?.id}
-                                />
+                                {viewMode === 'carousel' ? (
+                                    <DishCarousel
+                                        dishes={DISHES}
+                                        takenCounts={takenCounts}
+                                        onToggle={toggleDish}
+                                        selectedDishIds={selectedDishes.map(d => d.id)}
+                                    />
+                                ) : (
+                                    <DishGrid
+                                        dishes={DISHES}
+                                        takenCounts={takenCounts}
+                                        onToggle={toggleDish}
+                                        selectedDishIds={selectedDishes.map(d => d.id)}
+                                    />
+                                )}
+
                                 <div className="text-center mt-2">
                                     <button
                                         type="button"

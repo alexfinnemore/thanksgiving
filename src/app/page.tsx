@@ -19,7 +19,13 @@ export default function Home() {
 
   const takenCounts = rsvps.reduce((acc, rsvp) => {
     if (rsvp.dishId && rsvp.dishId !== 'custom') {
-      acc[rsvp.dishId] = (acc[rsvp.dishId] || 0) + 1;
+      const ids = rsvp.dishId.split(',');
+      ids.forEach((id: string) => {
+        const trimmedId = id.trim();
+        if (trimmedId) {
+          acc[trimmedId] = (acc[trimmedId] || 0) + 1;
+        }
+      });
     }
     return acc;
   }, {} as Record<string, number>);
