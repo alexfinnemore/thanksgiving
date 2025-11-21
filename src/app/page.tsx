@@ -10,16 +10,22 @@ export default function Home() {
   const [showModal, setShowModal] = useState(false);
   const [rsvps, setRsvps] = useState<any[]>([]);
   const [submitted, setSubmitted] = useState(false);
+  const [customDishes, setCustomDishes] = useState<any[]>([]);
 
   useEffect(() => {
     fetch('/api/rsvp')
       .then((res) => res.json())
       .then((data) => setRsvps(data.rsvps));
+
+    fetch('/api/custom-dishes')
+      .then((res) => res.json())
+      .then((data) => setCustomDishes(data.dishes || []));
   }, []);
 
   const takenCounts = rsvps.reduce((acc, rsvp) => {
-    if (rsvp.dishId && rsvp.dishId !== 'custom') {
-      const ids = rsvp.dishId.split(',');
+    const dishId = rsvp.dish_id || rsvp.dishId; // Support both formats for compatibility
+    if (dishId && dishId !== 'custom') {
+      const ids = dishId.split(',');
       ids.forEach((id: string) => {
         const trimmedId = id.trim();
         if (trimmedId) {
@@ -31,6 +37,19 @@ export default function Home() {
   }, {} as Record<string, number>);
 
   const handleRSVP = async (data: any) => {
+    // If it's a custom dish, save it to the custom dishes table
+    if (data.dishId === 'custom' && data.dish) {
+      await fetch('/api/custom-dishes', {
+        method: 'POST',
+        body: JSON.stringify({ name: data.dish }),
+      });
+
+      // Refresh custom dishes list
+      fetch('/api/custom-dishes')
+        .then((res) => res.json())
+        .then((data) => setCustomDishes(data.dishes || []));
+    }
+
     await fetch('/api/rsvp', {
       method: 'POST',
       body: JSON.stringify(data),
