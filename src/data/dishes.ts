@@ -31,13 +31,13 @@ export const DISHES: Dish[] = [
     { id: 'pumpkin-cookies', name: 'Pumpkin Cookies', category: 'Desserts', image: '/placeholder_food.png' },
     { id: 'tiramisu', name: 'Tiramisu', category: 'Desserts', image: '/placeholder_food.png' },
     { id: 'fruit-crumble', name: 'Fruit Crumble', category: 'Desserts', image: '/placeholder_food.png' },
-    { id: 'pie', name: 'Pie', category: 'Desserts', image: '/placeholder_food.png' },
-    { id: 'ice-cream', name: 'Ice Cream', category: 'Desserts', image: '/placeholder_food.png' },
-    { id: 'apple-turnovers', name: 'Apple Turnovers', category: 'Desserts', image: '/placeholder_food.png' },
+    { id: 'pie', name: 'Pie', category: 'Desserts', image: '/pie.png' },
+    { id: 'ice-cream', name: 'Ice Cream', category: 'Desserts', image: '/ice-cream.png' },
+    { id: 'apple-turnovers', name: 'Apple Turnovers', category: 'Desserts', image: '/apple-turnovers.png' },
 
     // Drinks
-    { id: 'wine', name: 'Wine', category: 'Drinks', image: '/placeholder_drink.png' },
-    { id: 'beer', name: 'Beer', category: 'Drinks', image: '/placeholder_drink.png' },
+    { id: 'wine', name: 'Wine', category: 'Drinks', image: '/wine.png' },
+    { id: 'beer', name: 'Beer', category: 'Drinks', image: '/beer.png' },
     { id: 'non-alcoholic', name: 'Non-alcoholic', category: 'Drinks', image: '/soda.png' },
     { id: 'gluhwein', name: 'Glüwine', category: 'Drinks', image: '/gluhwein.png' },
     { id: 'sekt', name: 'Sekt', category: 'Drinks', image: '/sekt.png' },
