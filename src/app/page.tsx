@@ -133,7 +133,7 @@ export default function Home() {
           transition={{ duration: 0.8 }}
           className="bg-black/70 p-6 md:p-10 rounded-xl border-4 border-yellow-600 shadow-[0_0_30px_rgba(0,0,0,0.8)] backdrop-blur-sm mb-10 w-full"
         >
-          <h1 className="text-3xl md:text-5xl text-yellow-500 mb-8 text-shadow-retro leading-tight font-pixel">
+          <h1 className="text-2xl md:text-4xl text-yellow-500 mb-8 text-shadow-retro leading-tight font-pixel">
             Friendsgiving
           </h1>
 
