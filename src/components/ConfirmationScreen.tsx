@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Calendar, Clock, MapPin, UtensilsCrossed, X } from 'lucide-react';
+import { Calendar, Clock, MapPin, UtensilsCrossed, X, Download } from 'lucide-react';
 
 interface ConfirmationScreenProps {
     name: string;
@@ -15,6 +15,47 @@ export default function ConfirmationScreen({ name, dishes, comeEarly, plusOne, o
     const eventDate = "Wednesday, November 27th, 2025";
     const arrivalTime = comeEarly ? "1:00 PM CET" : "4:00 PM CET";
     const location = "Waldemarstraße 107, 10997 Berlin";
+
+    const downloadCalendar = () => {
+        // Event details
+        const startTime = comeEarly ? "20251127T130000" : "20251127T160000"; // 1pm or 4pm
+        const endTime = "20251127T220000"; // 10pm
+
+        // Create description with dishes
+        const description = `Friendsgiving 2025!\\n\\nYou're bringing: ${dishes}\\n\\nJoin to start cooking at 1pm, lunch at 4pm.\\nAll times are in Berlin (CET).${plusOne ? '\\n\\nYou are bringing a +1.' : ''}`;
+
+        // Generate iCalendar content
+        const icsContent = `BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Friendsgiving 2025//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+DTSTART;TZID=Europe/Berlin:${startTime}
+DTEND;TZID=Europe/Berlin:${endTime}
+DTSTAMP:${new Date().toISOString().replace(/[-:]/g, '').split('.')[0]}Z
+SUMMARY:Friendsgiving 2025 🦃
+DESCRIPTION:${description}
+LOCATION:${location}
+STATUS:CONFIRMED
+SEQUENCE:0
+BEGIN:VALARM
+TRIGGER:-PT24H
+ACTION:DISPLAY
+DESCRIPTION:Reminder: Friendsgiving tomorrow!
+END:VALARM
+END:VEVENT
+END:VCALENDAR`;
+
+        // Create blob and download
+        const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
+        const link = document.createElement('a');
+        link.href = window.URL.createObjectURL(blob);
+        link.download = 'friendsgiving-2025.ics';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-sm p-4">
@@ -92,8 +133,15 @@ export default function ConfirmationScreen({ name, dishes, comeEarly, plusOne, o
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.6 }}
-                    className="mt-6 text-center"
+                    className="mt-6 text-center space-y-3"
                 >
+                    <button
+                        onClick={downloadCalendar}
+                        className="w-full bg-green-600 hover:bg-green-500 text-white font-bold py-3 px-6 rounded-lg font-pixel text-sm transition-all hover:scale-105 shadow-lg flex items-center justify-center gap-2"
+                    >
+                        <Download className="w-4 h-4" />
+                        Add to Calendar
+                    </button>
                     <button
                         onClick={onClose}
                         className="bg-yellow-500 hover:bg-yellow-400 text-black font-bold py-3 px-8 rounded-lg font-pixel text-sm transition-all hover:scale-105 shadow-lg"
