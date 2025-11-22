@@ -12,7 +12,7 @@ interface ConfirmationScreenProps {
 }
 
 export default function ConfirmationScreen({ name, dishes, comeEarly, plusOne, onClose }: ConfirmationScreenProps) {
-    const eventDate = "Saturday, November 30th, 2025";
+    const eventDate = "Wednesday, November 27th, 2025";
     const arrivalTime = comeEarly ? "1:00 PM CET" : "4:00 PM CET";
     const location = "Waldemarstraße 107, 10997 Berlin";
 
