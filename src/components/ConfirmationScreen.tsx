@@ -102,11 +102,22 @@ export default function ConfirmationScreen({ name, dishes, comeEarly, plusOne, o
                     </button>
                 </motion.div>
 
+                <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: [0, 1, 0, 1, 0, 1] }}
+                    transition={{ delay: 0.7, duration: 2, repeat: Infinity, repeatDelay: 1 }}
+                    className="mt-4 text-center"
+                >
+                    <p className="text-yellow-300 text-xs font-pixel">
+                        📸 Take a screenshot for your records!
+                    </p>
+                </motion.div>
+
                 <motion.p
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.8 }}
-                    className="text-center text-yellow-200/70 text-xs mt-4 font-pixel"
+                    className="text-center text-yellow-200/70 text-xs mt-2 font-pixel"
                 >
                     See you there! 🎉
                 </motion.p>

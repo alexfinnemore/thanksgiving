@@ -43,7 +43,9 @@ export default function DishGrid({ dishes, takenCounts, selectedDishIds, onToggl
                                 sizes="64px"
                             />
                             {showTakenDot && (
-                                <div className="absolute top-0 right-0 w-3 h-3 bg-red-500 rounded-full border border-white shadow-sm animate-pulse" />
+                                <div className="absolute top-0 right-0 bg-red-500 text-white rounded-full w-4 h-4 flex items-center justify-center text-[8px] font-bold border border-white shadow-sm animate-pulse">
+                                    {takenCount}
+                                </div>
                             )}
                             {isSelected && (
                                 <div className="absolute -bottom-1 -right-1 bg-green-500 text-black text-[10px] font-bold px-1 rounded border border-white">
