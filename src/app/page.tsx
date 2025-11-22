@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import RSVPModal from '@/components/RSVPModal';
+import ConfirmationScreen from '@/components/ConfirmationScreen';
 import { motion } from 'framer-motion';
 
 export default function Home() {
@@ -11,6 +12,7 @@ export default function Home() {
   const [rsvps, setRsvps] = useState<any[]>([]);
   const [submitted, setSubmitted] = useState(false);
   const [customDishes, setCustomDishes] = useState<any[]>([]);
+  const [confirmationData, setConfirmationData] = useState<any>(null);
 
   useEffect(() => {
     fetch('/api/rsvp')
@@ -62,7 +64,9 @@ export default function Home() {
       method: 'POST',
       body: JSON.stringify(data),
     });
-    setSubmitted(true);
+
+    // Store confirmation data
+    setConfirmationData(data);
     setShowModal(false);
     // Refresh list
     fetch('/api/rsvp')
@@ -170,6 +174,16 @@ export default function Home() {
         onSubmit={handleRSVP}
         customDishes={customDishes}
       />
+
+      {confirmationData && (
+        <ConfirmationScreen
+          name={confirmationData.name}
+          dishes={confirmationData.dish}
+          comeEarly={confirmationData.comeEarly}
+          plusOne={confirmationData.plusOne}
+          onClose={() => setConfirmationData(null)}
+        />
+      )}
 
       {/* Footer/Credits */}
       <div className="absolute bottom-4 text-[10px] text-gray-500 font-pixel opacity-50">
